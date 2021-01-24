@@ -15,7 +15,7 @@ variable "node_address_prefix" {
 variable "Environment" {
   type = string
 }
-
+#variable for node count
 variable "node_count" {
   type = number
 }
