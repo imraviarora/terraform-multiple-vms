@@ -73,7 +73,7 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 # Virtual Machine Creation — Linux
-  resource "azurerm_virtual_machine" "linux_vm" {
+resource "azurerm_virtual_machine" "linux_vm" {
   count = var.node_count
   name = "${var.resource_prefix}-${format("%02d", count.index)}"
   #name = "${var.resource_prefix}-VM"
