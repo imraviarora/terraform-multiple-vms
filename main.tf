@@ -1,4 +1,4 @@
-# Create a resource group
+# Create a resource group rg
 resource "azurerm_resource_group" "rg" {
   name = "${var.resource_prefix}-rg"
   location = var.node_location
@@ -42,8 +42,6 @@ resource "azurerm_network_interface" "nic" {
   subnet_id = azurerm_subnet.subnet.id
   private_ip_address_allocation = "Dynamic"
   public_ip_address_id = element(azurerm_public_ip.public_ip.*.id, count.index)
-  #public_ip_address_id = azurerm_public_ip.public_ip.id
-  #public_ip_address_id = azurerm_public_ip.public_ip.id
   }
 }
 # Creating resource NSG
@@ -51,7 +49,6 @@ resource "azurerm_network_security_group" "nsg" {
   name = "${var.resource_prefix}-NSG"
   location = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  # Security rule can also be defined with resource azurerm_network_security_rule, here just defining it inline.
   security_rule {
     name = "Inbound"
     priority = 100
@@ -76,7 +73,6 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
 resource "azurerm_virtual_machine" "linux_vm" {
   count = var.node_count
   name = "${var.resource_prefix}-${format("%02d", count.index)}"
-  #name = "${var.resource_prefix}-VM"
   location = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   network_interface_ids = [element(azurerm_network_interface.nic.*.id, count.index)]
